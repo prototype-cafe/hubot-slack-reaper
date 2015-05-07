@@ -50,6 +50,8 @@ module.exports = (robot) ->
     # data = robot.brain.get　"hubot-slack-reaper-sumup"
     # -> { dev_null: { taro: 1, hanako: 2 },
     #      lounge: { taro: 5, hanako: 3 } }
+    if !data
+      data = {}
     if !data[channel]
       data[channel] = {}
     if !data[channel][user]
