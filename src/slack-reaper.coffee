@@ -63,23 +63,28 @@ module.exports = (robot) ->
     if loaded
       robot.brain.set "hubot-slack-reaper-sumup", JSON.stringify data
 
-  robot.hear /^score$/, (res) ->
-    if targetroom
-      if res.message.room != targetroom
-        return
-
+  score = (channel) ->
     # sort by deletions
     z = []
-    for k,v of data[res.message.room]
+    for k,v of data[channel]
       z.push([k,v])
     z.sort( (a,b) -> b[1] - a[1] )
 
     # display ranking
     if z.length > 0
-      msgs = [ "Deleted ranking of "+res.message.room ]
+      msgs = [ "Deleted ranking of " + channel ]
       for user in z
         msgs.push(user[0]+':'+user[1])
-      res.send msgs.join('\n')
+      return msgs.join('\n')
+    return ""
+
+  robot.hear /^score$/, (res) ->
+    if targetroom
+      if res.message.room != targetroom
+        return
+    reply = score(res.message.room)
+    if reply.length > 0
+      res.send reply
 
   robot.hear regex, (res) ->
     if targetroom
