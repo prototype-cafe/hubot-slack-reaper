@@ -115,7 +115,11 @@ module.exports = (robot) ->
     if z.length > 0
       msgs = [ "Deleted ranking of " + echannel ]
       for user in z
-        msgs.push(user[0]+':'+user[1])
+        un = user[0]
+        un = un.replace(/(?!^.).(?!$)/g, '*')
+        if un.length <= 2
+          un[1] = '*'
+        msgs.push(un+':'+user[1])
       return msgs.join("\n")
     return ""
 
