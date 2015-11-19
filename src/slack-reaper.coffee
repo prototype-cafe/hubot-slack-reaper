@@ -210,7 +210,7 @@ module.exports = (robot) ->
             try
               json = JSON.parse(body)
               if json.ok
-                robot.logger.info("Removed #{res.message.user.name}'s message \"#{res.message.text}\" in #{res.message.room}")
+                robot.logger.info("Removed #{res.message.user.name}'s message in #{res.message.room}")
               else
                 robot.logger.error("Failed to remove message")
             catch error
